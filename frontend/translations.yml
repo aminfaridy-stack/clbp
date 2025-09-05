@@ -37,6 +37,8 @@ fa:
   load_questionnaires_error: "خطا در بارگذاری پرسشنامه‌ها."
   get_prediction_error: "خطا در دریافت پیش‌بینی از سرور."
   unauthorized_access: "شما مجوز دسترسی به این بخش را ندارید."
+  choose_one: "یکی را انتخاب کنید:"
+  enter_value: "مقدار را وارد کنید:"
   # Add all other strings here
 en:
   app_name: "CLBP Prediction System"
@@ -77,4 +79,6 @@ en:
   load_questionnaires_error: "Failed to load questionnaires."
   get_prediction_error: "Error retrieving prediction from server."
   unauthorized_access: "You are not authorized to access this section."
+  choose_one: "Choose one:"
+  enter_value: "Enter value:"
   # Add all other strings here

@@ -261,15 +261,22 @@ def render_form():
     
     answer_key = f"{q_key}_{current_q['index']}"
     
-    if current_q['input_type'] == 'likert_4':
+    if current_q['input_type'] == 'likert_4' or current_q['input_type'] == 'radio':
         options = current_q[f"options_{st.session_state.locale}"]
-        selected_option = st.radio("انتخاب کنید:", options, key=answer_key)
+        selected_option = st.radio(_['choose_one'], options, key=answer_key)
         
     elif current_q['input_type'] == 'yes_no':
-        selected_option = st.radio("انتخاب کنید:", ["بله", "خیر"], key=answer_key)
+        selected_option = st.radio(_['choose_one'], ["بله", "خیر"], key=answer_key)
     
     elif current_q['input_type'] == 'slider_10':
-        selected_option = st.slider("انتخاب کنید:", 0, 10, key=answer_key)
+        selected_option = st.slider(_['choose_one'], 0, 10, key=answer_key)
+
+    elif current_q['input_type'] == 'number_input':
+        selected_option = st.number_input(_['enter_value'], min_value=0, max_value=120, key=answer_key)
+
+    elif current_q['input_type'] == 'selectbox':
+        options = current_q[f"options_{st.session_state.locale}"]
+        selected_option = st.selectbox(_['choose_one'], options, key=answer_key)
 
     elif current_q['input_type'] == 'nmq_bodymap':
         regions = ['گردن', 'شانه‌ها', 'بالای کمر', 'پایین کمر', 'آرنج', 'مچ/دست', 'باسن/ران', 'زانو', 'مچ پا/پا']
