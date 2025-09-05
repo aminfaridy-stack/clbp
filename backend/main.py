@@ -7,8 +7,8 @@ import json
 import random
 from typing import List, Dict, Any, Optional
 
-from . import db, auth, ml_service
-from .db import User, UserCreate, Token, ResponseIn, Score, Prediction, PredictionResult, get_db
+import db, auth, ml_service
+from db import User, UserCreate, Token, ResponseIn, Score, Prediction, PredictionResult, get_db
 
 app = FastAPI(
     title="CLBP Prediction API",
