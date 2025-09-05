@@ -3,3 +3,4 @@ requests
 streamlit-pydantic
 Pillow
 PyYAML
+pandas

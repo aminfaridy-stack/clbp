@@ -1,101 +1,114 @@
+/* Import Vazirmatn font for Farsi characters */
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
 
+/*
+  Global RTL and Font Configuration.
+  The theme colors are now set in .streamlit/config.toml
+  This CSS file provides supplemental styling.
+*/
 body {
     direction: rtl;
-    text-align: right;
     font-family: 'Vazirmatn', sans-serif !important;
 }
 
-.st-emotion-cache-183n49h.e1tzp52p4 {
-    direction: rtl;
-}
-
-.st-emotion-cache-163e9c5 {
-    direction: rtl;
-    text-align: right;
-}
-
-.st-emotion-cache-10o5j50 {
-    direction: rtl;
-    text-align: right;
-}
-.st-emotion-cache-1wiv3a8 {
-    text-align: right;
-}
-.st-emotion-cache-1v0mkh {
-    text-align: right;
-}
-.st-emotion-cache-1c7y3i5 {
-    text-align: right;
-}
-.st-emotion-cache-1wiv3a8 {
-    text-align: right;
-}
-.st-emotion-cache-1g8i73b {
-    text-align: right;
-}
-
-/* Specific RTL overrides for components */
-.st-emotion-cache-12t9y4q {
-    direction: rtl;
-}
-.st-emotion-cache-1v0mkh {
-    direction: rtl;
-}
-
-/* Vazirmatn font for all components */
-.st-emotion-cache-1v0mkh,
-.st-emotion-cache-1g8i73b,
-.st-emotion-cache-10o5j50,
-.st-emotion-cache-1g98qj1,
-.st-emotion-cache-1c7y3i5 {
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Vazirmatn', sans-serif !important;
 }
 
-/* Specific styling for the top bar */
+/* Make all buttons use the Vazirmatn font */
+button {
+    font-family: 'Vazirmatn', sans-serif !important;
+}
+
+/*
+  Improved Top Bar Styling.
+  This replaces the old, basic top bar style.
+*/
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #f0f2f6;
-    border-bottom: 1px solid #e6e6e6;
-    margin-bottom: 20px;
-    direction: rtl;
-}
-.top-bar-left {
-    display: flex;
-    align-items: center;
-}
-.top-bar-left h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #0c1844;
-    margin-right: 15px;
-}
-.top-bar-right {
-    display: flex;
-    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background-color: #FFFFFF; /* White background for contrast */
+    border-bottom: 1px solid #D5D8DC;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    direction: ltr; /* Set direction to LTR for flexbox ordering */
 }
 
-/* Styles for the interactive body map (simplified) */
-.body-map-container {
-    width: 100%;
-    max-width: 500px;
-    margin: 20px auto;
+.top-bar-left, .top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
-.body-map-region {
-    display: inline-block;
-    padding: 8px 12px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+.top-bar-right {
+    order: 2; /* Pushes this to the right in an LTR container */
+}
+
+.top-bar-left {
+    order: 1; /* Pushes this to the left */
+}
+
+
+.top-bar .app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1B4F72; /* Use primary color from theme */
+    text-decoration: none;
+}
+
+.top-bar .nav-button {
+    border: none;
+    background: none;
     cursor: pointer;
-    user-select: none;
-    background-color: #f0f0f0;
+    color: #34495E; /* Use text color from theme */
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
 }
-.body-map-region.selected {
-    background-color: #0c1844;
-    color: white;
-    font-weight: bold;
+
+.top-bar .nav-button:hover {
+    background-color: #F0F2F6; /* Use background color from theme */
+}
+
+/*
+  Card styling for containers.
+  Use with st.container(border=True) and add a class.
+*/
+div[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] {
+    border: 1px solid #D5D8DC !important;
+    border-radius: 10px !important;
+    padding: 20px !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+    background-color: #FFFFFF;
+}
+
+/* Styling for buttons to make them more prominent */
+div[data-testid="stButton"] > button {
+    width: 100%;
+    background-color: #1B4F72 !important;
+    color: white !important;
+    border-radius: 5px !important;
+    border: 1px solid #1B4F72 !important;
+    font-weight: 700 !important;
+    padding: 0.5rem 1rem !important;
+}
+
+div[data-testid="stButton"] > button:hover {
+    background-color: #21618C !important;
+    border-color: #21618C !important;
+}
+
+/* Secondary button style */
+div[data-testid="stButton"] > button.secondary {
+    background-color: #EAECEE !important;
+    color: #34495E !important;
+    border-color: #D5D8DC !important;
+}
+
+div[data-testid="stButton"] > button.secondary:hover {
+    background-color: #D5D8DC !important;
 }
