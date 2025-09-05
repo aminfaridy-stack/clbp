@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: clbp-db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - clbp_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: clbp-backend
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: >
+      sh -c "python seed_db.py && uvicorn main:app --host 0.0.0.0 --port 8000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    container_name: clbp-frontend
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - backend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app
+
+  nginx:
+    image: nginx:latest
+    container_name: clbp-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      # For production, uncomment and mount Let's Encrypt certificates
+      # - /etc/letsencrypt/live/${APP_DOMAIN}/fullchain.pem:${TLS_CERT_PATH}
+      # - /etc/letsencrypt/live/${APP_DOMAIN}/privkey.pem:${TLS_KEY_PATH}
+    depends_on:
+      - frontend
+
+volumes:
+  clbp_data:
