@@ -4,7 +4,6 @@
 /*
   Global RTL and Font Configuration.
   The theme colors are now set in .streamlit/config.toml
-  This CSS file provides supplemental styling.
 */
 body {
     direction: rtl;
@@ -15,78 +14,40 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Vazirmatn', sans-serif !important;
 }
 
-/* Make all buttons use the Vazirmatn font */
 button {
     font-family: 'Vazirmatn', sans-serif !important;
 }
 
 /*
-  Improved Top Bar Styling.
-  This replaces the old, basic top bar style.
+  Improved Top Bar Styling
 */
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    background-color: #FFFFFF; /* White background for contrast */
+div[data-testid="stHorizontalBlock"]:has(h3) {
+    background-color: #FFFFFF;
     border-bottom: 1px solid #D5D8DC;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 1rem;
     margin-bottom: 2rem;
-    direction: ltr; /* Set direction to LTR for flexbox ordering */
 }
 
-.top-bar-left, .top-bar-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.top-bar-right {
-    order: 2; /* Pushes this to the right in an LTR container */
-}
-
-.top-bar-left {
-    order: 1; /* Pushes this to the left */
-}
-
-
-.top-bar .app-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1B4F72; /* Use primary color from theme */
-    text-decoration: none;
-}
-
-.top-bar .nav-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #34495E; /* Use text color from theme */
-    font-size: 1rem;
-    font-weight: 400;
-    padding: 0.25rem 0.5rem;
-    border-radius: 5px;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.top-bar .nav-button:hover {
-    background-color: #F0F2F6; /* Use background color from theme */
+div[data-testid="stHorizontalBlock"]:has(h3) h3 {
+    color: #1B4F72 !important; /* Ensure title color has contrast */
 }
 
 /*
   Card styling for containers.
-  Use with st.container(border=True) and add a class.
+  This provides the main "card" look for forms and dashboards.
 */
 div[data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] > [data-testid="stVerticalBlock"] {
     border: 1px solid #D5D8DC !important;
     border-radius: 10px !important;
-    padding: 20px !important;
+    padding: 25px !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     background-color: #FFFFFF;
 }
 
-/* Styling for buttons to make them more prominent */
+/*
+  Main action button styling
+*/
 div[data-testid="stButton"] > button {
     width: 100%;
     background-color: #1B4F72 !important;
@@ -94,7 +55,7 @@ div[data-testid="stButton"] > button {
     border-radius: 5px !important;
     border: 1px solid #1B4F72 !important;
     font-weight: 700 !important;
-    padding: 0.5rem 1rem !important;
+    padding: 0.75rem 1rem !important;
 }
 
 div[data-testid="stButton"] > button:hover {
@@ -102,13 +63,53 @@ div[data-testid="stButton"] > button:hover {
     border-color: #21618C !important;
 }
 
-/* Secondary button style */
-div[data-testid="stButton"] > button.secondary {
-    background-color: #EAECEE !important;
-    color: #34495E !important;
-    border-color: #D5D8DC !important;
+/*
+  Modern Metric Card styling for Admin Dashboard
+*/
+div[data-testid="stMetric"] {
+    background-color: #F8F9F9;
+    border: 1px solid #EAECEE;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
 }
 
-div[data-testid="stButton"] > button.secondary:hover {
-    background-color: #D5D8DC !important;
+div[data-testid="stMetric"] > label {
+    font-weight: 700;
+    color: #1B4F72;
+}
+
+/*
+  Icon styling
+*/
+.icon {
+    margin-left: 8px;
+    margin-right: -4px;
+}
+
+/*
+  Input field with icon styling
+*/
+.input-with-icon {
+    display: flex;
+    align-items: center;
+    border: 1px solid #D5D8DC;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
+.input-with-icon i {
+    color: #566573;
+    margin-right: 10px;
+}
+
+.input-with-icon input {
+    border: none !important;
+    box-shadow: none !important;
+    width: 100%;
+    padding: 8px 0;
+}
+
+.input-with-icon:focus-within {
+    border-color: #1B4F72;
 }

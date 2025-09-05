@@ -35,6 +35,7 @@ _ = translations[st.session_state['locale']]
 with open("static/style.css") as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+
 # --- State Management ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -98,18 +99,18 @@ def display_top_bar():
             st.markdown(f"### {_['app_name']}", unsafe_allow_html=True)
 
         with col2:
-            if st.button(_['admin_link'], key="admin_button", use_container_width=True):
+            if st.button(f"🛡️ {_['admin_link']}", key="admin_button", use_container_width=True):
                 st.session_state.page = "admin_login"
-                st.experimental_rerun()
+                st.rerun()
 
         with col3:
-            if st.button(_['lang_toggle'], key="lang_button", use_container_width=True):
+            if st.button(f"🌐 {_['lang_toggle']}", key="lang_button", use_container_width=True):
                 st.session_state.locale = 'en' if st.session_state.locale == 'fa' else 'fa'
-                st.experimental_rerun()
+                st.rerun()
 
         with col4:
             persian_nums_on = st.toggle(
-                _['persian_numerals_toggle'],
+                f"🔢 {_['persian_numerals_toggle']}",
                 value=st.session_state.persian_numerals,
                 key="num_toggle"
             )
@@ -126,11 +127,11 @@ def render_home():
         with col1:
             if st.button(_['login']):
                 st.session_state.page = "login"
-                st.experimental_rerun()
+                st.rerun()
         with col2:
             if st.button(_['register']):
                 st.session_state.page = "register"
-                st.experimental_rerun()
+                st.rerun()
     else:
         st.subheader(f"👋 {st.session_state.user_info['name']}، خوش آمدید!")
         if st.session_state.user_info['role'] == "patient":
@@ -141,8 +142,19 @@ def render_home():
 def render_login():
     with st.container(border=True):
         st.title(_['login'])
-        email = st.text_input(_['email'], key="login_email")
-        password = st.text_input(_['password'], type="password", key="login_pass")
+
+        col1, col2 = st.columns([1, 10])
+        with col1:
+            st.markdown("📧")
+        with col2:
+            email = st.text_input(_['email'], key="login_email", label_visibility="collapsed")
+
+        col1, col2 = st.columns([1, 10])
+        with col1:
+            st.markdown("🔒")
+        with col2:
+            password = st.text_input(_['password'], type="password", key="login_pass", label_visibility="collapsed")
+
         if st.button(_['login']):
             with st.spinner(_['processing']):
                 try:
@@ -155,7 +167,7 @@ def render_login():
                         st.session_state.page = "home"
                         st.success(_['login_success'])
                         time.sleep(1)
-                        st.experimental_rerun()
+                        st.rerun()
                     else:
                         st.error(_['login_error'])
                 except requests.exceptions.RequestException as e:
@@ -164,9 +176,25 @@ def render_login():
 def render_register():
     with st.container(border=True):
         st.title(_['register'])
-        name = st.text_input(_['name'], key="reg_name")
-        email = st.text_input(_['email'], key="reg_email")
-        password = st.text_input(_['password'], type="password", key="reg_pass")
+
+        col1, col2 = st.columns([1, 10])
+        with col1:
+            st.markdown("👤")
+        with col2:
+            name = st.text_input(_['name'], key="reg_name", label_visibility="collapsed")
+
+        col1, col2 = st.columns([1, 10])
+        with col1:
+            st.markdown("📧")
+        with col2:
+            email = st.text_input(_['email'], key="reg_email", label_visibility="collapsed")
+
+        col1, col2 = st.columns([1, 10])
+        with col1:
+            st.markdown("🔒")
+        with col2:
+            password = st.text_input(_['password'], type="password", key="reg_pass", label_visibility="collapsed")
+
         if st.button(_['register']):
             with st.spinner(_['processing']):
                 try:
@@ -174,7 +202,7 @@ def render_register():
                     if response.status_code == 200:
                         st.success(_['register_success'])
                         st.session_state.page = "login"
-                        st.experimental_rerun()
+                        st.rerun()
                     else:
                         st.error(_['register_error'])
                 except requests.exceptions.RequestException as e:
@@ -191,7 +219,7 @@ def render_patient_dashboard():
                 if response.status_code == 200:
                     qs = {q['key']: q for q in response.json()}
                     st.session_state.questionnaires = qs
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error(_['load_questionnaires_error'])
             except requests.exceptions.RequestException as e:
@@ -211,7 +239,7 @@ def render_patient_dashboard():
                     st.session_state.current_q = q_data
                     st.session_state.form_step = 0
                     st.session_state.page = "form"
-                    st.experimental_rerun()
+                    st.rerun()
 
     if st.session_state.get('prediction_result'):
         render_prediction_result()
@@ -259,7 +287,7 @@ def render_form():
             submit_form()
             st.session_state.form_step = 0
             st.session_state.page = "home"
-            st.experimental_rerun()
+            st.rerun()
 
 def submit_form():
     user_id = st.session_state.user_info['id']
@@ -309,7 +337,7 @@ def submit_form():
                 # Call prediction endpoint after T2 or last questionnaire
                 if q_key == "rmdq": # A simple trigger for prediction
                     st.session_state.page = "predict_risk"
-                    st.experimental_rerun()
+                    st.rerun()
             else:
                 st.error(_['form_submit_error'])
         except requests.exceptions.RequestException as e:
@@ -345,12 +373,12 @@ def render_prediction_page():
             if response.status_code == 200:
                 st.session_state.prediction_result = response.json()
                 st.session_state.page = "results"
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error(_['get_prediction_error'])
         except requests.exceptions.RequestException as e:
             st.error(f"{_['server_connection_error']}: {e}")
-        
+
 def render_prediction_result():
     with st.container(border=True):
         result = st.session_state.prediction_result
@@ -375,7 +403,7 @@ def render_prediction_result():
         
         if st.button("بازگشت به داشبورد"):
             st.session_state.page = "home"
-            st.experimental_rerun()
+            st.rerun()
 
 def render_admin_login():
     with st.container(border=True):
@@ -396,7 +424,7 @@ def render_admin_login():
                             st.session_state.user_info = token_data['user_info']
                             st.session_state.page = "admin_dashboard"
                             st.success(_['login_success'])
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(_['unauthorized_access'])
                     else:
@@ -422,13 +450,13 @@ def render_admin_dashboard():
             with st.container(border=True):
                 col1, col2, col3, col4 = st.columns(4)
                 with col1:
-                    st.metric(_['total_patients'], get_persian_numerals(overview['total_patients']))
+                    st.metric(f"👥 {_['total_patients']}", get_persian_numerals(overview['total_patients']))
                 with col2:
-                    st.metric(_['high_risk_patients'], get_persian_numerals(overview['patients_with_high_risk']))
+                    st.metric(f"⚠️ {_['high_risk_patients']}", get_persian_numerals(overview['patients_with_high_risk']))
                 with col3:
-                    st.metric(_['avg_phq9'], get_persian_numerals(overview['average_scores']['phq9']))
+                    st.metric(f"📝 {_['avg_phq9']}", get_persian_numerals(overview['average_scores']['phq9']))
                 with col4:
-                    st.metric(_['avg_nrs'], get_persian_numerals(overview['average_scores']['nrs']))
+                    st.metric(f"📊 {_['avg_nrs']}", get_persian_numerals(overview['average_scores']['nrs']))
             
             # Placeholder for more complex analytics
             st.subheader("توزیع نمرات (نمونه)")
