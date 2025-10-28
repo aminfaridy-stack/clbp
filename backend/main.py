@@ -7,8 +7,8 @@ import json
 import random
 from typing import List, Dict, Any, Optional
 
-from . import db, auth, ml_service
-from .db import User, UserCreate, Token, ResponseIn, Score, Prediction, PredictionResult, get_db
+import db, auth, ml_service
+from db import User, UserCreate, Token, ResponseIn, Score, Prediction, PredictionResult, get_db
 
 app = FastAPI(
     title="CLBP Prediction API",
@@ -64,16 +64,15 @@ def login_for_access_token(form_data: dict, db_session: Session = Depends(get_db
     return {"access_token": access_token, "token_type": "bearer", "user_info": user}
 
 # --- Questionnaire and Response Endpoints ---
-@app.get("/api/questionnaires")
+@app.get("/api/questionnaires", response_model=List[db.QuestionnaireSchema])
 def get_questionnaires(db_session: Session = Depends(get_db)):
     return db_session.query(db.Questionnaire).all()
 
-@app.get("/api/questionnaires/{key}")
+@app.get("/api/questionnaires/{key}", response_model=db.QuestionnaireSchema)
 def get_questionnaire_by_key(key: str, db_session: Session = Depends(get_db)):
     q = db_session.query(db.Questionnaire).filter(db.Questionnaire.key == key).first()
     if not q:
         raise HTTPException(status_code=404, detail="Questionnaire not found")
-    q.questions # Eager load questions
     return q
 
 @app.post("/api/responses")

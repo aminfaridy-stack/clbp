@@ -1,0 +1,20 @@
+# .streamlit/config.toml
+
+[theme]
+# A professional and calming color scheme for the healthcare app
+primaryColor="#1B4F72"           # A strong, calming blue
+backgroundColor="#F0F2F6"        # Light grey background
+secondaryBackgroundColor="#EAECEE" # Slightly darker grey for containers
+textColor="#34495E"              # Dark slate grey for text
+
+# Set the default font for the app
+font="sans serif"
+
+[server]
+# This allows the app to be embedded in iframes, which can be useful.
+enableCORS = false
+enableXsrfProtection = false
+
+[runner]
+# This hides the "Made with Streamlit" footer for a more professional look.
+magicEnabled = false

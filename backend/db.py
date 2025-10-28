@@ -126,6 +126,32 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: Optional[str] = None
     role: Optional[str] = None
+
+class QuestionSchema(BaseModel):
+    id: int
+    index: int
+    text_fa: str
+    text_en: str
+    input_type: str
+    options_fa: Optional[List[str]]
+    options_en: Optional[List[str]]
+    reverse_scored: bool
+
+    class Config:
+        from_attributes = True
+
+class QuestionnaireSchema(BaseModel):
+    id: int
+    key: str
+    title_fa: str
+    title_en: str
+    description_fa: str
+    description_en: str
+    version: int
+    questions: List[QuestionSchema]
+
+    class Config:
+        from_attributes = True
     
 class ResponseIn(BaseModel):
     user_id: int
